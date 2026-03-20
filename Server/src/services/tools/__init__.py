@@ -51,9 +51,9 @@ def register_all_tools(mcp: FastMCP, *, project_scoped_tools: bool = True):
         description = tool_info['description']
         kwargs = tool_info['kwargs']
 
-        if not project_scoped_tools and tool_name == "execute_custom_tool":
+        if not project_scoped_tools and tool_name in ("execute_custom_tool", "list_custom_tools"):
             logger.info(
-                "Skipping execute_custom_tool registration (project-scoped tools disabled)")
+                f"Skipping {tool_name} registration (project-scoped tools disabled)")
             continue
 
         # Apply decorators: logging -> telemetry -> mcp.tool
