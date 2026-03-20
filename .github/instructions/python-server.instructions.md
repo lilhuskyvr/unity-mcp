@@ -73,3 +73,22 @@ Use `Annotated` from `typing` with string descriptions for tool parameters. Use 
 ## Config
 
 `from core.config import config` provides server configuration (transport mode, URLs, etc.).
+
+## Local Development — Running the Server
+
+Always run from the `Server/` directory. If port 8080 is occupied, kill it first:
+
+```bash
+kill-port 8080
+```
+
+Then start the local dev server:
+
+```bash
+cd Server
+uv run src/main.py --transport http --http-url http://localhost:8080 --project-scoped-tools
+```
+
+- `--project-scoped-tools` enables `execute_custom_tool`, `list_custom_tools`, and the `mcpforunity://custom-tools` resource. Include it whenever working on custom tool features.
+- The server binds to `http://localhost:8080`. The MCP endpoint is `http://localhost:8080/mcp`.
+- To verify tools with MCP Inspector: `npx @modelcontextprotocol/inspector http://localhost:8080/mcp`
