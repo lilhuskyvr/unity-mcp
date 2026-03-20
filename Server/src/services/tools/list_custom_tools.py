@@ -3,13 +3,12 @@ from mcp.types import ToolAnnotations
 from models.models import MCPResponse
 
 from services.custom_tool_service import (
+    CustomToolService,
     get_user_id_from_context,
     resolve_project_id_for_unity_instance,
 )
 from services.registry import mcp_for_unity_tool
 from services.tools import get_unity_instance_from_context
-from transport.unity_transport import send_with_unity_instance
-from transport.legacy.unity_connection import async_send_command_with_retry
 
 
 @mcp_for_unity_tool(
@@ -38,26 +37,11 @@ async def list_custom_tools(ctx: Context) -> MCPResponse:
         )
 
     user_id = await get_user_id_from_context(ctx)
-    response = await send_with_unity_instance(
-        async_send_command_with_retry,
-        unity_instance,
-        "list_custom_tools",
-        {},
-        user_id=user_id,
-    )
-
-    if not isinstance(response, dict):
-        return MCPResponse(
-            success=False,
-            message="Unexpected response from Unity.",
-        )
-
-    success = response.get("success", False)
-    message = response.get("message", "")
-    data = response.get("data")
+    service = CustomToolService.get_instance()
+    tools = await service.list_registered_tools(project_id, user_id=user_id)
 
     return MCPResponse(
-        success=success,
-        message=message,
-        data=data,
+        success=True,
+        message=f"Found {len(tools)} custom tool(s).",
+        data=[t.model_dump() for t in tools],
     )
