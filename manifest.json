@@ -50,10 +50,6 @@
       "description": "Delete C# scripts"
     },
     {
-      "name": "dummy_tool",
-      "description": "A dummy tool that returns 'dummy'. For testing purposes only."
-    },
-    {
       "name": "execute_custom_tool",
       "description": "Execute custom Unity Editor tools registered by the project"
     },
