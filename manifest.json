@@ -54,6 +54,10 @@
       "description": "Execute custom Unity Editor tools registered by the project"
     },
     {
+      "name": "list_custom_tools",
+      "description": "List all custom (project-defined) tools registered in the active Unity project"
+    },
+    {
       "name": "execute_menu_item",
       "description": "Execute Unity Editor menu items"
     },
